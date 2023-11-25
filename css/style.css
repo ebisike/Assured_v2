@@ -5,3 +5,7 @@
 .hide{
     display: none;
 }
+
+body{
+    font-family: 'nunito-sans';
+}

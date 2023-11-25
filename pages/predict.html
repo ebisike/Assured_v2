@@ -1,11 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assured_v2 - Predict</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assured_v2 - Predict</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!-- sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
+
+<body class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span id="navLink">
+        <span><img src="/img/assured_v2_1.png" width="30" alt=""></span>
+        <a class="navbar-brand" href="#">&nbsp;ssured_v2</a>
+      </span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+        aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              More Actions
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+              <li><a class="dropdown-item" href="#docUploadCanvas" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#docUploadCanvas" aria-controls="docUploadCanvas">Document Upload</a></li>
+              <li><a class="dropdown-item" href="#offcanvasRight" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Form Data</a></li>
+              <li><a class="dropdown-item" href="#" id="getScatterPlot">Scatter Plot</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="docUploadCanvas" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Document file upload for past data</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form id="fileUploadForm" enctype="multipart/form-data">
+          <div class="row justify-content-center my-3">
+            <div class="col-md-10">
+              <div class="row my-2">
+                <div class="col-md-12">
+                  <input type="file" accept=".xls,.xlsx" name="document" id="document" required class="form-control" />
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="height: fit-content;">
+      <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="closeTopCanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="row my-3">
+          <div class="col-md-12">
+            <form id="rawForm">
+              <div id="showForm"></div>
+              <div class="row justify-content-center my-3">
+                <div class="col-md-10">
+                  <button type="button" class="btn btn-success fw-bold fs-6" id="addForm">
+                    +
+                  </button>
+                  <button type="button" class="btn btn-danger fw-bold fs-6" id="removeForm">
+                    -
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row justify-content-center my-4">
+    <div class="col-md-12 card shadow-sm vh-100 p-5">
+      <div class="row my-5">
+        <div class="col-md-12">
+          <div id="model">
+            <span id="model-display">
+              <!-- <p class="text-center fs-2">\[\begin{equation} y=23+34.6x_{1}+\beta_{2}x_{2}+\beta_{3}x_{3}+\epsilon.  \end{equation}\]</p> -->
+              <p class="text-center fs-3 fw-bold" id="model-example">
+                \[\begin{equation}
+                y_{i}=\beta_{0}+\beta_{1}x_{i,1}+\beta_{2}x_{i,2}+\ldots+\beta_{k}x_{i,k}+\epsilon_{i}.
+                \end{equation} \]
+              </p>
+            </span>
+            <div class="row justify-content-center text-center">
+              <div class="col-md-12">
+                <span id="loading">
+                  <button class="btn btn-outline-dark" id="generate-model">
+                    Generate model
+                  </button>
+                </span>
+                <button class="btn btn-outline-secondary hide" id="run-prediction" data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop">
+                  Run Prediction
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <!-- <span class="my-5 fs-5 px-5 py-2 rounded-pill bg-dark text-white">Scatter plot</span> -->
+          <div id="myPlot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <section id="predictionModal">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Software Effort Prediction Form
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="" id="new-prediction-data-form">
+              <div class="row">
+                <div class="col-md-12 my-2">
+                  <input type="text" required class="form-control" placeholder="Enter Team Expereince point"
+                    name="x1_team_experience" id="x1_team_experience" />
+                  <small id="x1_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter Project size" name="x2_project_size"
+                    id="x2_project_size" />
+                  <small id="x2_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter buget amount" name="x3_budget"
+                    id="x3_budget" />
+                  <small id="x3_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter communication efficiency points"
+                    name="x4_communication" id="x4_communication" />
+                  <small id="x4_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <span id="spanPredictionButton">
+              <button type="button" class="btn btn-primary" id="btn-run-prediction">
+                Run Predicion
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/network.js"></script>
+  <script src="/js/util.js"></script>
+  <script src="/js/upload.js"></script>
+  <script src="/js/regression.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script>
+  <script>
+    document.querySelector('#navLink').addEventListener('click', (e) => {
+      setTimeout(() => {
+        window.location.href = '/index.html'
+      }, 2000);
+    })
+
+
+
     
+    
+
+  </script>
 </body>
+
 </html>

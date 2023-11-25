@@ -34,6 +34,11 @@ let formSize = 1;
       }
     }
 
+    const clearDynamicForm = () => {
+      while(formSize > 1){
+        deleteForm(formSize)
+      }
+    }
 
     // add new from
     document.querySelector('#addForm').addEventListener('click', (e) => {
@@ -55,6 +60,7 @@ let formSize = 1;
     document.querySelector('#rawForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      alert('hello')
       const payload_array = [];
 
       for (let count = 1; count <= formSize; count++) {
@@ -95,7 +101,6 @@ let formSize = 1;
 
     //file uploader
     document.querySelector('#fileUploadForm').addEventListener('submit', async (e) => {
-
       e.preventDefault();
       var fileInput = document.getElementById("document");
 
@@ -132,6 +137,10 @@ let formSize = 1;
 
       swal("Error!", response?.error_message);
 
+    })
+
+    document.querySelector("#closeTopCanvas").addEventListener('click', (e)=>{
+      clearDynamicForm();
     })
 
     addForm(formSize)

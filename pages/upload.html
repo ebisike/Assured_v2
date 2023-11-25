@@ -2,37 +2,40 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assured_v2 - Upload data</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
   <link
     href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-
+    rel="stylesheet" />
 
   <!-- sweet alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body class="container">
-
   <section class="row justify-content-center my-4">
     <div class="col-md-8 card shadow-sm vh-100 p-5">
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link activee" id="nav-file-upload-tab" data-bs-toggle="tab"
-            data-bs-target="#nav-file-upload" type="button" role="tab" aria-controls="nav-home"
-            aria-selected="true">Document upload</button>
+            data-bs-target="#nav-file-upload" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+            Document upload
+          </button>
           <button class="nav-link" id="nav-raw-form-tab" data-bs-toggle="tab" data-bs-target="#nav-raw-form"
-            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Simple Form</button>
-          <button class="nav-link active" id="nav-predict-tab" data-bs-toggle="tab" data-bs-target="#nav-predict" type="button"
-            role="tab" aria-controls="nav-contact" aria-selected="false">Prediction</button>
+            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+            Simple Form
+          </button>
+          <button class="nav-link active" id="nav-predict-tab" data-bs-toggle="tab" data-bs-target="#nav-predict"
+            type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+            Prediction
+          </button>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
@@ -47,12 +50,16 @@
                   <div class="col-md-10">
                     <div class="row">
                       <div class="form-group col-md-6">
+                        <!-- <input type="file" name="" id=""> -->
                         <!-- <label for="uploadFile" class="form-label">Choose File to Upload: </label> -->
-                        <input type="file" accept=".xls,.xlsx" name="document" id="document" required class="form-control">
+                        <input type="file" accept=".xls,.xlsx" name="document" id="document" required
+                          class="form-control" />
                       </div>
                       <div class="form-group col-md-6">
                         <!-- <label for="" class="form-label">click</label> -->
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">
+                          Submit
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -71,27 +78,99 @@
                 <div id="showForm"></div>
                 <div class="row justify-content-center my-3">
                   <div class="col-md-10">
-                    <button type="button" class="btn btn-success fw-bold fs-6" id="addForm">+</button>
-                    <button type="button" class="btn btn-danger fw-bold fs-6" id="removeForm">-</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-success fw-bold fs-6" id="addForm">
+                      +
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold fs-6" id="removeForm">
+                      -
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Submit
+                    </button>
                   </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
-        
+
         <!-- regression model -->
         <div class="tab-pane fade show active p-3" id="nav-predict" role="tabpanel" aria-labelledby="nav-predict-tab">
           <div id="model">
-            <!-- <p class="text-center fs-2">\[\begin{equation} y=\beta  _{0}+\beta _{1}x_{1}+\beta_{2}x_{2}+\beta_{3}x_{3}+\epsilon.  \end{equation}\]</p> -->
-            <p class="text-center fs-3 fw-bold">\[\begin{equation}  y_{i}=\beta_{0}+\beta_{1}x_{i,1}+\beta_{2}x_{i,2}+\ldots+\beta_{k}x_{i,k}+\epsilon_{i}.  \end{equation} \]</p>
+            <span id="model-display">
+              <!-- <p class="text-center fs-2">\[\begin{equation} y=23+34.6x_{1}+\beta_{2}x_{2}+\beta_{3}x_{3}+\epsilon.  \end{equation}\]</p> -->
+              <p class="text-center fs-3 fw-bold" id="model-example">
+                \[\begin{equation}
+                y_{i}=\beta_{0}+\beta_{1}x_{i,1}+\beta_{2}x_{i,2}+\ldots+\beta_{k}x_{i,k}+\epsilon_{i}.
+                \end{equation} \]
+              </p>
+            </span>
             <div class="row justify-content-center text-center">
               <div class="col-md-12">
-                <button class="btn btn-outline-dark" id="generate-model">Generate model</button>
-                <button class="btn btn-outline-secondary hide" id="run-prediction">Run Prediction</button>
+                <span id="loading">
+                  <button class="btn btn-outline-dark" id="generate-model">
+                    Generate model
+                  </button>
+                </span>
+                <button class="btn btn-outline-secondary hide" id="run-prediction" data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop">
+                  Run Prediction
+                </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <section id="predictionModal">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Software Effort Prediction Form
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="" id="new-prediction-data-form">
+              <div class="row">
+                <div class="col-md-12 my-2">
+                  <input type="text" required class="form-control" placeholder="Enter Team Expereince point"
+                    name="x1_team_experience" id="x1_team_experience" />
+                  <small id="x1_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter Project size" name="x2_project_size"
+                    id="x2_project_size" />
+                  <small id="x2_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter buget amount" name="x3_budget"
+                    id="x3_budget" />
+                  <small id="x3_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+                <div class="col-md-12 my-2">
+                  <input type="text" class="form-control" placeholder="Enter communication efficiency points"
+                    name="x4_communication" id="x4_communication" />
+                  <small id="x4_error_text" class="form-text text-danger hide">This is a required field.</small>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <span id="spanPredictionButton">
+              <button type="button" class="btn btn-primary" id="btn-run-prediction">
+                Run Predicion
+              </button>
+            </span>
           </div>
         </div>
       </div>
@@ -100,47 +179,170 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script>
   <script src="/js/config.js"></script>
   <script src="/js/network.js"></script>
   <script src="/js/util.js"></script>
   <script src="/js/upload.js"></script>
 
   <script>
-    let isModelSet = false;
-    
-    const togglePredictButton = () =>{
-      if(!isModelSet){
-        document.querySelector('#run-prediction').classList.add('disabled')
-        return;
-      }
-      document.querySelector('#run-prediction').classList.remove('hide')
+    const predictionModal = new bootstrap.Modal(document.querySelector('#staticBackdrop'));
+
+    const toggleDisplay = (element = null, show = true) => {
+      show ? element.classList.remove("hide") : element.classList.add("hide");
+    };
+
+    const loadingButton = (domElement) => {
+      // const div = document.querySelector("#loading");
+      const button = document.createElement("button");
+      button.classList.add("btn", "btn-dark", "disabled");
+      button.setAttribute("id", "loading-btn");
+
+      const spanTag = document.createElement("span");
+      spanTag.classList.add("spinner-border", "spinner-border-sm");
+      spanTag.setAttribute("role", "status");
+      spanTag.setAttribute("aria-hidden", "true");
+
+      button.appendChild(spanTag);
+      button.appendChild(document.createTextNode(" loading..."));
+      domElement.textContent = "";
+      domElement.appendChild(button);
+    };
+
+    const generateModelButton = () => {
+      const div = document.querySelector("#loading");
+      const button = document.createElement("button");
+      button.classList.add("btn", "btn-outline-dark");
+      button.setAttribute("id", "generate-model");
+
+      button.appendChild(document.createTextNode("Generate model"));
+      div.textContent = "";
+      div.appendChild(button);
+    };
+
+    const showModel = (x0 = 234.5, x1 = 23, x2 = 34.53, x3 = 2657.34, x4 = 0.5) => {
+      // <p class="text-center fs-2">\[\begin{equation} y=\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\beta_{3}x_{3}+\epsilon.  \end{equation}\]</p>
+      const div = document.querySelector('#model-display');
+      let modelTag = document.createElement('p');
+      const modelText = `y  = ${x0} + ${x1}𝑥<sub class="fs-6">1</sub> + ${x2}𝑥<sub class="fs-6">2</sub> + ${x3}𝑥<sub class="fs-6">3</sub> + ${x4}𝑥<sub class="fs-6">4</sub>`;
+      modelTag.classList.add('text-center', 'fs-2')
+      modelTag.innerHTML = modelText
+
+      document.querySelector('#model-example').append(modelText)
+      div.textContent = '';
+      div.appendChild(modelTag)
     }
 
-    const changeGenerateModelButton = () =>{
-      const btn = document.querySelector('#generate-model');
-      //<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      const spanTag = document.createElement('span')
-      spanTag.classList.add('spinner-border spinner-border-sm')
-      spanTag.setAttribute('role', 'status')
-      spanTag.setAttribute('aria-hidden', 'true')
-      btn.appendChild(spanTag)
+
+    const generateSubmitPredictionButton = () => {
+      const div = document.querySelector("#spanPredictionButton");
+      const button = document.createElement("button");
+      button.classList.add("btn", "btn-primary");
+      button.setAttribute("id", "btn-run-prediction");
+
+      button.appendChild(document.createTextNode("Run Prediction"));
+      div.textContent = "";
+      div.appendChild(button);
     }
-    document.querySelector('#generate-model').addEventListener('click', async (e)=>{
+
+    document.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (e.target.closest("#generate-model")) {
+        toggleDisplay(document.querySelector("#run-prediction"), false);
+        console.log("hello");
+        loadingButton(document.querySelector("#loading"));
+        // setTimeout(() => {
+        //   generateModelButton();
+        //   toggleDisplay(document.querySelector("#run-prediction"), true);
+        //   showModel()
+        // }, 3000);
+        const path = "api/regression/model/prompt";
+        const method = "GET";
+        const response = await httpRequest(path, method, {})
+
+        console.log(response)
+        if (response?.status) {
+          setTimeout(() => {
+            generateModelButton();
+            toggleDisplay(document.querySelector("#run-prediction"), true);
+            const { y_intercept, x1_team_experience_coefficient, x2_project_size_coefficient, x3_budget_coefficient, x4_communication_efficiency_coeffiient } = response?.result[0]
+            showModel(y_intercept, x1_team_experience_coefficient, x2_project_size_coefficient, x3_budget_coefficient, x4_communication_efficiency_coeffiient)
+          }, 1000);
+        }
+      }else{
+        generateModelButton();
+      }
+    });
+
+    const clearModalForm = () => {
+      document.querySelector('#x1_team_experience').value = '';
+      document.querySelector('#x2_project_size').value = '';
+      document.querySelector('#x3_budget').value = '';
+      document.querySelector('#x4_communication').value = '';
+    }
+
+    document.addEventListener("click", async (e) => {
       e.preventDefault();
 
-      const path = '';
-      const method = 'GET';
-      const response = await httpRequest(path, method, {})
+      if (e.target.closest('#btn-run-prediction')) {
+        const payload = {
+          x1: document.querySelector("#x1_team_experience").value,
+          x2: document.querySelector("#x2_project_size").value,
+          x3: document.querySelector("#x3_budget").value,
+          x4: document.querySelector("#x4_communication").value,
+        };
 
-      if(response?.status){
-        isModelSet = true
-  
-        togglePredictButton()
+        !payload.x1 || payload.x1 === ""
+          ? toggleDisplay(document.querySelector("#x1_error_text"), true)
+          : toggleDisplay(document.querySelector("#x1_error_text"), false);
+        !payload.x2 || payload.x2 === ""
+          ? toggleDisplay(document.querySelector("#x2_error_text"), true)
+          : toggleDisplay(document.querySelector("#x2_error_text"), false);
+        !payload.x3 || payload.x3 === ""
+          ? toggleDisplay(document.querySelector("#x3_error_text"), true)
+          : toggleDisplay(document.querySelector("#x3_error_text"), false);
+        !payload.x4 || payload.x4 === ""
+          ? toggleDisplay(document.querySelector("#x4_error_text"), true)
+          : toggleDisplay(document.querySelector("#x4_error_text"), false);
+
+        if (payload.x1 === "" || payload.x2 === "" || payload.x3 === "" || payload.x4 === "") return;
+
+        //call api
+
+        loadingButton(document.querySelector('#spanPredictionButton'))
+        console.log(payload);
+        const path = 'api/regression/prediction/prompt'
+        const method = 'POST';
+
+        const response = await httpRequest(path, method, payload)
+
+        if (response?.status) {
+          setTimeout(() => {
+            generateSubmitPredictionButton();
+
+            clearModalForm()
+            //predictionModal.dispose();
+            predictionModal.hide();
+            const {y_software_effort, y_intercept, x1_team_experience_coefficient, x2_project_size_coefficient, x3_budget_coefficient, x4_communication_efficiency_coeffiient } = response?.result[0]
+
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Good job!",
+              text: "Upload successful",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            console.log("software effort is: ", y_software_effort);
+            return;
+          }, 1000);
+        }
+        //show modal
       }
-    })
-  </script>
 
+    });
+  
+  </script>
 </body>
 
 </html>
